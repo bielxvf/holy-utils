@@ -10,6 +10,26 @@ U64 Main(U64 argc, U8** argv)
         return 1;
     }
 
+    U64 args_capacity = argc;
+    U64 args_count = args_capacity;
+    StringView* args = MAlloc(sizeof(StringView) * args_capacity);
+    for (U64 i = 0; i < args_count; i++) {
+        StringView_init_from_cstr(&args[i], argv[i]);
+        "init %d completed\n", i;
+        "data: %s\n", args[i].data;
+    }
+
+    for (U64 i = 0; i < args_count; i++) {
+        "%s\n", args[i].data;
+    }
+
+    /* Free args array */
+    for (U64 i = 0; i < args_count; i++) {
+        StringView_free(&args[i]);
+    }
+    Free(args);
+
+    /*
     StringView path;
 
     for (U64 i = 1; i < argc; i++) {
@@ -29,5 +49,7 @@ U64 Main(U64 argc, U8** argv)
     }
 
     "\n";
+    */
+
     return 0;
 }
