@@ -13,6 +13,22 @@ Bool StringView_init(StringView* sv, U64 size_initial=5)
     return sv->data != NULL;
 }
 
+Bool StringView_init_from_cstr(StringView* sv, U8* str)
+{
+    sv->capacity = StrLen(str);
+    sv->data = MAlloc(sizeof(sv->data[0]) * sv->capacity);
+    sv->count = sv->capacity;
+
+    U8* it = sv->data;
+    do {
+        *it = *str;
+        it++;
+        str++;
+    } while (*str != '\0');
+
+    return sv->data != NULL;
+}
+
 U0 StringView_free(StringView* sv)
 {
     Free(sv->data);
