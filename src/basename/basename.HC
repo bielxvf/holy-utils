@@ -1,4 +1,4 @@
-#include "../../libs/StringView/StringView.HH"
+#include <Args.HH> /* Also include StringView.HH */
 
 #define PROGRAM "basename"
 
@@ -10,24 +10,14 @@ U64 Main(U64 argc, U8** argv)
         return 1;
     }
 
-    U64 args_capacity = argc;
-    U64 args_count = args_capacity;
-    StringView* args = MAlloc(sizeof(StringView) * args_capacity);
-    for (U64 i = 0; i < args_count; i++) {
-        StringView_init_from_cstr(&args[i], argv[i]);
-        "init %d completed\n", i;
-        "data: %s\n", args[i].data;
+    Args args;
+    Args_init(&args, argc, argv);
+
+    for (U64 i = 0; i < args.count; i++) {
+        "%d: %s\n", i, args.data[i].data;
     }
 
-    for (U64 i = 0; i < args_count; i++) {
-        "%s\n", args[i].data;
-    }
-
-    /* Free args array */
-    for (U64 i = 0; i < args_count; i++) {
-        StringView_free(&args[i]);
-    }
-    Free(args);
+    Args_free(&args);
 
     /*
     StringView path;

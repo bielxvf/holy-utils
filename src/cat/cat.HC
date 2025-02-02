@@ -1,6 +1,6 @@
-#define EOF -1
+#include <StringView.HH>
 
-#include "../../libs/StringView/StringView.HH"
+#define EOF -1
 
 U64 Main(U64 argc, U8** argv)
 {
