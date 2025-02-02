@@ -1,4 +1,4 @@
-#include <StringView.HH>
+#include <Args.HH>
 
 #define EOF -1
 
@@ -10,43 +10,53 @@ U64 Main(U64 argc, U8** argv)
     //       the start of the line? Or if you press C-D twice it actually
     //       terminates but it doesnt print the line.
 
-    /* Read stdin */
-    if (argc < 2) {
-        U8 c;
-        StringView line;
-        if (!StringView_init(&line)) {
-            "Failed to init StringView\n";
-            return 1;
-        }
-        while (read(STDIN, &c, 1)) {
-            switch (c) {
-            case EOF: {
-                "%s", line.data;
-                StringView_free(&line);
-                return 0;
-            } break;
-            default: {
-                StringView_push_U8(&line, c);
-            } break;
-            }
+    /* TODO: Rewrite this with Args.HH */
 
-            if (c == '\n') {
-                StringView_push_U8(&line, '\0');
-                "%s", line.data;
-                StringView_free(&line);
-                if (!StringView_init(&line)) {
-                    "Failed to init StringView\n";
-                    return 1;
-                }
-            }
-        }
-        return 0;
+    Args args;
+    Args_init(&args);
+
+    if (StringView_starts_with(&args.data[1], "-")) {
     }
 
-    /* Print files given */
-    for (I64 i = 1; i < argc; i++) {
-        U8* buffer = FileRead(argv[i]);
-        "%s", buffer;
-    }
+    Args_free(&args);
     return 0;
+
+    // /* Read stdin */
+    // if (argc < 2) {
+    //     U8 c;
+    //     StringView line;
+    //     if (!StringView_init(&line)) {
+    //         "Failed to init StringView\n";
+    //         return 1;
+    //     }
+    //     while (read(STDIN, &c, 1)) {
+    //         switch (c) {
+    //         case EOF: {
+    //             "%s", line.data;
+    //             StringView_free(&line);
+    //             return 0;
+    //         } break;
+    //         default: {
+    //             StringView_push_U8(&line, c);
+    //         } break;
+    //         }
+
+    //         if (c == '\n') {
+    //             StringView_push_U8(&line, '\0');
+    //             "%s", line.data;
+    //             StringView_free(&line);
+    //             if (!StringView_init(&line)) {
+    //                 "Failed to init StringView\n";
+    //                 return 1;
+    //             }
+    //         }
+    //     }
+    //     return 0;
+    // }
+
+    // /* Print files given */
+    // for (I64 i = 1; i < argc; i++) {
+    //     U8* buffer = FileRead(argv[i]);
+    //     "%s", buffer;
+    // }
 }
