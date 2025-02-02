@@ -15,16 +15,13 @@ Bool StringView_init(StringView* sv, U64 size_initial=5)
 
 Bool StringView_init_from_cstr(StringView* sv, U8* str)
 {
-    sv->capacity = StrLen(str);
+    sv->capacity = StrLen(str) + 1;
     sv->data = MAlloc(sizeof(sv->data[0]) * sv->capacity);
-    sv->count = sv->capacity;
+    sv->count = sv->capacity - 1;
 
-    U8* it = sv->data;
-    do {
-        *it = *str;
-        it++;
-        str++;
-    } while (*str != '\0');
+    for (U64 i = 0; i < sv->capacity; i++) {
+        sv->data[i] = str[i];
+    }
 
     return sv->data != NULL;
 }
